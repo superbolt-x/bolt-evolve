@@ -7,3 +7,12 @@ sources:
   tables:
     - name: old_fb_acct
       identifier: old_fb_acct
+
+- name: reporting
+  schema: reporting
+  tables:
+    - name: facebook_ad_performance
+      identifier: evolve_facebook_ad_performance
+
+    - name: googleads_ad_performance
+      identifier: evolve_googleads_ad_performance
