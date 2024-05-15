@@ -12,9 +12,7 @@ date,
 date_granularity,
 spend,
 impressions,
-link_clicks as clicks,
-purchases,
-revenue
+link_clicks as clicks
 from {{ source('reporting','facebook_ad_performance') }}
 
 UNION ALL 
@@ -29,7 +27,5 @@ date,
 date_granularity,
 spend,
 impressions,
-clicks,
-purchases,
-revenue
+clicks
 from {{ source('reporting','googleads_ad_performance') }}
