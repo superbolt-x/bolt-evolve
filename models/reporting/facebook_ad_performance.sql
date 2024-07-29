@@ -24,5 +24,5 @@ date_granularity,
 spend,
 impressions,
 link_clicks,
-lead as leads
+onfacebook_leads+website_leads as leads
 FROM {{ ref('facebook_performance_by_ad') }}
