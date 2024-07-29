@@ -11,6 +11,7 @@ adset_name,
 adset_id,
 adset_effective_status,
 audience,
+SPLIT_PART(adset_name,' - ',1) AS location,
 ad_name,
 ad_id,
 ad_effective_status,
@@ -22,5 +23,6 @@ date,
 date_granularity,
 spend,
 impressions,
-link_clicks
+link_clicks,
+lead as leads
 FROM {{ ref('facebook_performance_by_ad') }}
