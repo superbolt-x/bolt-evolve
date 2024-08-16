@@ -21,12 +21,12 @@ format_visual,
 visual_copy,
 CASE WHEN ad_name ~* 'lip flip' THEN 'Lip Flip'
     WHEN ad_name ~* 'BBL' THEN 'BBL'
-    WHEN ad_name ~* 'hydrafacial' AND ad_name ~* 'diamondglow' THEN 'Facials'
+    WHEN ad_name ~* 'hydrafacial' OR ad_name ~* 'diamondglow' THEN 'Facials'
     WHEN ad_name ~* 'LHR' THEN 'LHR'
     WHEN ad_name ~* 'Botox' THEN 'Tox'
     WHEN ad_name ~* 'Filler' THEN 'Fillers'
     WHEN ad_name ~* 'Morpheus' THEN 'Morpheus'
-    WHEN ad_name ~* 'coolsculpting' AND ad_name ~* 'emsculpt' THEN 'Body Contouring'
+    WHEN ad_name ~* 'coolsculpting' OR ad_name ~* 'emsculpt' THEN 'Body Contouring'
     ELSE 'Others'
 END AS service,
 date,
