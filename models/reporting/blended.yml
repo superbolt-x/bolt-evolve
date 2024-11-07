@@ -7,6 +7,10 @@ sources:
   tables:
     - name: old_fb_acct
       identifier: old_fb_acct
+    - name: bookings_completed
+      identifier: bookings_completed
+    - name: crm_leads
+      identifier: crm_leads
 
 - name: reporting
   schema: reporting
