@@ -10,7 +10,7 @@ WITH initial_bookings_data as
     FROM {{ source('gsheet_raw','bookings_completed') }} ),
 
 bookings_data as
-    (SELECT 'day' as date_granularity, DATE_TRUNC('day',date_created::date) as date,
+    (SELECT 'day' as date_granularity, DATE_TRUNC('day',date_completed::date) as date,
         CASE WHEN url ~* 'facebookdirect' THEN 'Facebook' WHEN url ~* 'googledirect' THEN 'Google' ELSE 'Other' END as channel, 
         campaign_id, ad_group_id, ad_id,
         COUNT(DISTINCT "order") as bookings_completed, COALESCE(SUM(subtotal),0) as subtotal_sales, COALESCE(SUM(total),0) as total_sales
@@ -18,7 +18,7 @@ bookings_data as
     WHERE state ~* 'final'
     GROUP BY 1,2,3,4,5,6
     UNION ALL
-    SELECT 'week' as date_granularity, DATE_TRUNC('week',date_created::date) as date,
+    SELECT 'week' as date_granularity, DATE_TRUNC('week',date_completed::date) as date,
         CASE WHEN url ~* 'facebookdirect' THEN 'Facebook' WHEN url ~* 'googledirect' THEN 'Google' ELSE 'Other' END as channel, 
         campaign_id, ad_group_id, ad_id,
         COUNT(DISTINCT "order") as bookings_completed, COALESCE(SUM(subtotal),0) as subtotal_sales, COALESCE(SUM(total),0) as total_sales
@@ -26,7 +26,7 @@ bookings_data as
     WHERE state ~* 'final'
     GROUP BY 1,2,3,4,5,6
     UNION ALL
-    SELECT 'month' as date_granularity, DATE_TRUNC('month',date_created::date) as date,
+    SELECT 'month' as date_granularity, DATE_TRUNC('month',date_completed::date) as date,
         CASE WHEN url ~* 'facebookdirect' THEN 'Facebook' WHEN url ~* 'googledirect' THEN 'Google' ELSE 'Other' END as channel, 
         campaign_id, ad_group_id, ad_id,
         COUNT(DISTINCT "order") as bookings_completed, COALESCE(SUM(subtotal),0) as subtotal_sales, COALESCE(SUM(total),0) as total_sales
@@ -34,7 +34,7 @@ bookings_data as
     WHERE state ~* 'final'
     GROUP BY 1,2,3,4,5,6
     UNION ALL
-    SELECT 'quarter' as date_granularity, DATE_TRUNC('quarter',date_created::date) as date,
+    SELECT 'quarter' as date_granularity, DATE_TRUNC('quarter',date_completed::date) as date,
         CASE WHEN url ~* 'facebookdirect' THEN 'Facebook' WHEN url ~* 'googledirect' THEN 'Google' ELSE 'Other' END as channel, 
         campaign_id, ad_group_id, ad_id,
         COUNT(DISTINCT "order") as bookings_completed, COALESCE(SUM(subtotal),0) as subtotal_sales, COALESCE(SUM(total),0) as total_sales
@@ -42,7 +42,7 @@ bookings_data as
     WHERE state ~* 'final'
     GROUP BY 1,2,3,4,5,6
     UNION ALL
-    SELECT 'year' as date_granularity, DATE_TRUNC('year',date_created::date) as date,
+    SELECT 'year' as date_granularity, DATE_TRUNC('year',date_completed::date) as date,
         CASE WHEN url ~* 'facebookdirect' THEN 'Facebook' WHEN url ~* 'googledirect' THEN 'Google' ELSE 'Other' END as channel, 
         campaign_id, ad_group_id, ad_id,
         COUNT(DISTINCT "order") as bookings_completed, COALESCE(SUM(subtotal),0) as subtotal_sales, COALESCE(SUM(total),0) as total_sales
