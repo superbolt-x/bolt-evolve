@@ -89,7 +89,8 @@ leads_data as
 fb_data as 
     (SELECT 'Facebook' as channel, campaign_name, campaign_type, ad_group_name, location, date, date_granularity, 
         COALESCE(SUM(spend),0) as spend, COALESCE(SUM(impressions),0) as impressions, COALESCE(SUM(clicks),0) as clicks, 
-        COALESCE(SUM(bookings_completed),0) as bookings_completed, COALESCE(SUM(leads),0) as leads, COALESCE(SUM(appointments_scheduled),0) as appointments_scheduled 
+        COALESCE(SUM(bookings_completed),0) as bookings_completed, COALESCE(SUM(leads),0) as leads, COALESCE(SUM(appointments_scheduled),0) as appointments_scheduled,
+        COALESCE(SUM(platform_leads),0) as platform_leads 
     FROM
         (SELECT campaign_name, 
             CASE WHEN campaign_name ~* 'Prospecting' AND campaign_name ~* 'DTB' THEN 'Prospecting DTB' 
@@ -98,7 +99,7 @@ fb_data as
                 WHEN campaign_name ~* 'Retargeting' AND campaign_name ~* 'Leads' THEN 'Retargeting Leads' 
             END as campaign_type,
             adset_name as ad_group_name, location, date, date_granularity, 
-            spend, impressions, link_clicks as clicks, 0 as bookings_completed, 0 as leads, appointments_scheduled
+            spend, impressions, link_clicks as clicks, 0 as bookings_completed, 0 as leads, appointments_scheduled, leads as platform_leads
         FROM {{ source('reporting','facebook_ad_performance') }}
         UNION ALL
         SELECT campaign_name, 
@@ -108,7 +109,7 @@ fb_data as
                 WHEN campaign_name ~* 'Retargeting' AND campaign_name ~* 'Leads' THEN 'Retargeting Leads' 
             END as campaign_type,
             ad_group_name, SPLIT_PART(ad_group_name,' - ',1) as location, date, date_granularity,
-            0 as spend, 0 as impressions, 0 as clicks, COALESCE(SUM(bookings_completed),0) as bookings_completed, 0 as leads, 0 as appointments_scheduled
+            0 as spend, 0 as impressions, 0 as clicks, COALESCE(SUM(bookings_completed),0) as bookings_completed, 0 as leads, 0 as appointments_scheduled, 0 as platform_leads
         FROM bookings_data
         LEFT JOIN (SELECT DISTINCT campaign_id::text, campaign_name, adset_id::text as ad_group_id, adset_name as ad_group_name, ad_id::text FROM {{ source('reporting','facebook_ad_performance') }}) USING(campaign_id,ad_id)   
         WHERE channel = 'Facebook'
@@ -121,7 +122,7 @@ fb_data as
                 WHEN campaign_name ~* 'Retargeting' AND campaign_name ~* 'Leads' THEN 'Retargeting Leads' 
             END as campaign_type,
             ad_group_name, location, date, date_granularity,
-            0 as spend, 0 as impressions, 0 as clicks, 0 as bookings_completed, COALESCE(SUM(leads),0) as leads, 0 as appointments_scheduled
+            0 as spend, 0 as impressions, 0 as clicks, 0 as bookings_completed, COALESCE(SUM(leads),0) as leads, 0 as appointments_scheduled, 0 as platform_leads
         FROM leads_data
         WHERE channel = 'Facebook'
         GROUP BY 1,2,3,4,5,6
@@ -131,18 +132,19 @@ fb_data as
 adw_data as 
     (SELECT 'Google' as channel, campaign_name, campaign_type, ad_group_name, location, date, date_granularity, 
         COALESCE(SUM(spend),0) as spend, COALESCE(SUM(impressions),0) as impressions, COALESCE(SUM(clicks),0) as clicks, 
-        COALESCE(SUM(bookings_completed),0) as bookings_completed, COALESCE(SUM(leads),0) as leads, COALESCE(SUM(appointments_scheduled),0) as appointments_scheduled
+        COALESCE(SUM(bookings_completed),0) as bookings_completed, COALESCE(SUM(leads),0) as leads, COALESCE(SUM(appointments_scheduled),0) as appointments_scheduled,
+        COALESCE(SUM(platform_leads),0) as platform_leads
     FROM
         (SELECT campaign_name, 
             CASE WHEN campaign_name ~* 'Search - Branded' THEN 'Search - Branded' WHEN campaign_name ~* 'Search - Non Brand' THEN 'Search - Non Brand' WHEN campaign_name ~* 'PMax' THEN 'PMax' END as campaign_type,
             ad_group_name, null as location, date, date_granularity, 
-            spend, impressions, clicks, 0 as bookings_completed, 0 as leads, appointments_scheduled
+            spend, impressions, clicks, 0 as bookings_completed, 0 as leads, appointments_scheduled, 0 as platform_leads
         FROM {{ source('reporting','googleads_ad_performance') }}
         UNION ALL
         SELECT campaign_name, 
             CASE WHEN campaign_name ~* 'Search - Branded' THEN 'Search - Branded' WHEN campaign_name ~* 'Search - Non Brand' THEN 'Search - Non Brand' WHEN campaign_name ~* 'PMax' THEN 'PMax' END as campaign_type,
             ad_group_name, null as location, date, date_granularity,
-            0 as spend, 0 as impressions, 0 as clicks, COALESCE(SUM(bookings_completed),0) as bookings_completed, 0 as leads, 0 as appointments_scheduled
+            0 as spend, 0 as impressions, 0 as clicks, COALESCE(SUM(bookings_completed),0) as bookings_completed, 0 as leads, 0 as appointments_scheduled, 0 as platform_leads
         FROM bookings_data
         LEFT JOIN (SELECT DISTINCT campaign_id::text, campaign_name, ad_group_id::text, ad_group_name FROM {{ source('reporting','googleads_ad_performance') }}) USING(campaign_id,ad_group_id)   
         WHERE channel = 'Google'
@@ -151,14 +153,14 @@ adw_data as
         SELECT campaign_name, 
             CASE WHEN campaign_name ~* 'Search - Branded' THEN 'Search - Branded' WHEN campaign_name ~* 'Search - Non Brand' THEN 'Search - Non Brand' WHEN campaign_name ~* 'PMax' THEN 'PMax' END as campaign_type,
             ad_group_name, null as location, date, date_granularity,
-            0 as spend, 0 as impressions, 0 as clicks, 0 as bookings_completed, COALESCE(SUM(leads),0) as leads, 0 as appointments_scheduled
+            0 as spend, 0 as impressions, 0 as clicks, 0 as bookings_completed, COALESCE(SUM(leads),0) as leads, 0 as appointments_scheduled, 0 as platform_leads
         FROM leads_data
         WHERE channel = 'Google'
         GROUP BY 1,2,3,4,5,6
         )
     GROUP BY 1,2,3,4,5,6,7)
 
-SELECT channel, campaign_name, campaign_type, ad_group_name, location, date, date_granularity, spend, impressions, clicks, bookings_completed, leads, appointments_scheduled
+SELECT channel, campaign_name, campaign_type, ad_group_name, location, date, date_granularity, spend, impressions, clicks, bookings_completed, leads, appointments_scheduled, platform_leads
 FROM 
     (SELECT * FROM fb_data
     UNION ALL 
