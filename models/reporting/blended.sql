@@ -111,6 +111,7 @@ fb_data as
             ad_group_name, location, date, date_granularity,
             0 as spend, 0 as impressions, 0 as clicks, 0 as bookings_completed, COALESCE(SUM(leads),0) as leads, 0 as appointments_scheduled
         FROM leads_data
+        WHERE channel = 'Facebook'
         GROUP BY 1,2,3,4,5,6
         )
     GROUP BY 1,2,3,4,5,6,7),
@@ -122,13 +123,13 @@ adw_data as
     FROM
         (SELECT campaign_name, 
             CASE WHEN campaign_name ~* 'Search - Branded' THEN 'Search - Branded' WHEN campaign_name ~* 'Search - Non Brand' THEN 'Search - Non Brand' WHEN campaign_name ~* 'PMax' THEN 'PMax' END as campaign_type,
-            ad_group_name, location, date, date_granularity, 
+            ad_group_name, null as location, date, date_granularity, 
             spend, impressions, clicks, 0 as bookings_completed, 0 as leads, appointments_scheduled
         FROM {{ source('reporting','googleads_ad_performance') }}
         UNION ALL
         SELECT campaign_name, 
             CASE WHEN campaign_name ~* 'Search - Branded' THEN 'Search - Branded' WHEN campaign_name ~* 'Search - Non Brand' THEN 'Search - Non Brand' WHEN campaign_name ~* 'PMax' THEN 'PMax' END as campaign_type,
-            ad_group_name, SPLIT_PART(ad_group_name,' - ',1) as location, date, date_granularity,
+            ad_group_name, null as location, date, date_granularity,
             0 as spend, 0 as impressions, 0 as clicks, COALESCE(SUM(bookings_completed),0) as bookings_completed, 0 as leads, 0 as appointments_scheduled
         FROM bookings_data
         LEFT JOIN (SELECT DISTINCT campaign_id::text, campaign_name, ad_group_id::text, ad_group_name FROM {{ source('reporting','googleads_ad_performance') }}) USING(campaign_id,ad_group_id)   
@@ -137,9 +138,10 @@ adw_data as
         UNION ALL
         SELECT campaign_name, 
             CASE WHEN campaign_name ~* 'Search - Branded' THEN 'Search - Branded' WHEN campaign_name ~* 'Search - Non Brand' THEN 'Search - Non Brand' WHEN campaign_name ~* 'PMax' THEN 'PMax' END as campaign_type,
-            ad_group_name, location, date, date_granularity,
+            ad_group_name, null as location, date, date_granularity,
             0 as spend, 0 as impressions, 0 as clicks, 0 as bookings_completed, COALESCE(SUM(leads),0) as leads, 0 as appointments_scheduled
         FROM leads_data
+        WHERE channel = 'Google'
         GROUP BY 1,2,3,4,5,6
         )
     GROUP BY 1,2,3,4,5,6,7)
