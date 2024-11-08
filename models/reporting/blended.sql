@@ -92,13 +92,21 @@ fb_data as
         COALESCE(SUM(bookings_completed),0) as bookings_completed, COALESCE(SUM(leads),0) as leads, COALESCE(SUM(appointments_scheduled),0) as appointments_scheduled 
     FROM
         (SELECT campaign_name, 
-            CASE WHEN campaign_name ~* 'Prospecting' THEN 'Prospecting' WHEN campaign_name ~* 'Retargeting' THEN 'Retargeting' END as campaign_type,
+            CASE WHEN campaign_name ~* 'Prospecting' AND campaign_name ~* 'DTB' THEN 'Prospecting DTB' 
+                WHEN campaign_name ~* 'Prospecting' AND campaign_name ~* 'Leads' THEN 'Prospecting Leads' 
+                WHEN campaign_name ~* 'Retargeting' AND campaign_name ~* 'DTB' THEN 'Retargeting DTB' 
+                WHEN campaign_name ~* 'Retargeting' AND campaign_name ~* 'Leads' THEN 'Retargeting Leads' 
+            END as campaign_type,
             adset_name as ad_group_name, location, date, date_granularity, 
             spend, impressions, link_clicks as clicks, 0 as bookings_completed, 0 as leads, appointments_scheduled
         FROM {{ source('reporting','facebook_ad_performance') }}
         UNION ALL
         SELECT campaign_name, 
-            CASE WHEN campaign_name ~* 'Prospecting' THEN 'Prospecting' WHEN campaign_name ~* 'Retargeting' THEN 'Retargeting' END as campaign_type,
+            CASE WHEN campaign_name ~* 'Prospecting' AND campaign_name ~* 'DTB' THEN 'Prospecting DTB' 
+                WHEN campaign_name ~* 'Prospecting' AND campaign_name ~* 'Leads' THEN 'Prospecting Leads' 
+                WHEN campaign_name ~* 'Retargeting' AND campaign_name ~* 'DTB' THEN 'Retargeting DTB' 
+                WHEN campaign_name ~* 'Retargeting' AND campaign_name ~* 'Leads' THEN 'Retargeting Leads' 
+            END as campaign_type,
             ad_group_name, SPLIT_PART(ad_group_name,' - ',1) as location, date, date_granularity,
             0 as spend, 0 as impressions, 0 as clicks, COALESCE(SUM(bookings_completed),0) as bookings_completed, 0 as leads, 0 as appointments_scheduled
         FROM bookings_data
@@ -107,7 +115,11 @@ fb_data as
         GROUP BY 1,2,3,4,5,6
         UNION ALL
         SELECT campaign_name, 
-            CASE WHEN campaign_name ~* 'Prospecting' THEN 'Prospecting' WHEN campaign_name ~* 'Retargeting' THEN 'Retargeting' END as campaign_type,
+            CASE WHEN campaign_name ~* 'Prospecting' AND campaign_name ~* 'DTB' THEN 'Prospecting DTB' 
+                WHEN campaign_name ~* 'Prospecting' AND campaign_name ~* 'Leads' THEN 'Prospecting Leads' 
+                WHEN campaign_name ~* 'Retargeting' AND campaign_name ~* 'DTB' THEN 'Retargeting DTB' 
+                WHEN campaign_name ~* 'Retargeting' AND campaign_name ~* 'Leads' THEN 'Retargeting Leads' 
+            END as campaign_type,
             ad_group_name, location, date, date_granularity,
             0 as spend, 0 as impressions, 0 as clicks, 0 as bookings_completed, COALESCE(SUM(leads),0) as leads, 0 as appointments_scheduled
         FROM leads_data
