@@ -4,7 +4,8 @@
 
 WITH initial_bookings_data as 
     (SELECT *, 
-        CASE WHEN url ~* 'googledirect' THEN SPLIT_PART(SPLIT_PART(url,'campaignid=',2),'&',1) WHEN url ~* 'facebookdirect' THEN SPLIT_PART(SPLIT_PART(url,'campaign_id=',2),'&',1) END as campaign_id, 
+        CASE WHEN url ~* 'googledirect' THEN SPLIT_PART(SPLIT_PART(url,'campaignid=',2),'&',1) 
+            WHEN url ~* 'facebookdirect' THEN LEFT(SPLIT_PART(SPLIT_PART(url,'campaign_id=',2),'&',1),15)||'100' END as campaign_id, 
         SPLIT_PART(SPLIT_PART(url,'adgroupid=',2),'&',1) as ad_group_id,
         SPLIT_PART(SPLIT_PART(url,'adid=',2),'&',1) as ad_id
     FROM {{ source('gsheet_raw','bookings_completed') }} ),
@@ -93,20 +94,20 @@ fb_data as
         COALESCE(SUM(platform_leads),0) as platform_leads 
     FROM
         (SELECT campaign_name, 
-            CASE WHEN campaign_name ~* 'Prospecting' AND campaign_name ~* 'DTB' THEN 'Prospecting DTB' 
-                WHEN campaign_name ~* 'Prospecting' AND campaign_name ~* 'Leads' THEN 'Prospecting Leads' 
-                WHEN campaign_name ~* 'Retargeting' AND campaign_name ~* 'DTB' THEN 'Retargeting DTB' 
-                WHEN campaign_name ~* 'Retargeting' AND campaign_name ~* 'Leads' THEN 'Retargeting Leads' 
+            CASE WHEN campaign_name = '[SB] - Prospecting - DTB' THEN 'Prospecting DTB' 
+                WHEN campaign_name = '[SB] - Prospecting - Leads' THEN 'Prospecting Leads' 
+                WHEN campaign_name = '[SB] - Retargeting - DTB' THEN 'Retargeting DTB'
+                ELSE 'Other'
             END as campaign_type,
             adset_name as ad_group_name, location, date, date_granularity, 
             spend, impressions, link_clicks as clicks, 0 as bookings_completed, 0 as leads, appointments_scheduled, leads as platform_leads
         FROM {{ source('reporting','facebook_ad_performance') }}
         UNION ALL
         SELECT campaign_name, 
-            CASE WHEN campaign_name ~* 'Prospecting' AND campaign_name ~* 'DTB' THEN 'Prospecting DTB' 
-                WHEN campaign_name ~* 'Prospecting' AND campaign_name ~* 'Leads' THEN 'Prospecting Leads' 
-                WHEN campaign_name ~* 'Retargeting' AND campaign_name ~* 'DTB' THEN 'Retargeting DTB' 
-                WHEN campaign_name ~* 'Retargeting' AND campaign_name ~* 'Leads' THEN 'Retargeting Leads' 
+            CASE WHEN campaign_name = '[SB] - Prospecting - DTB' OR campaign_name THEN 'Prospecting DTB' 
+                WHEN campaign_name = '[SB] - Prospecting - Leads' THEN 'Prospecting Leads' 
+                WHEN campaign_name = '[SB] - Retargeting - DTB' THEN 'Retargeting DTB'
+                ELSE 'Other'
             END as campaign_type,
             ad_group_name, SPLIT_PART(ad_group_name,' - ',1) as location, date, date_granularity,
             0 as spend, 0 as impressions, 0 as clicks, COALESCE(SUM(bookings_completed),0) as bookings_completed, 0 as leads, 0 as appointments_scheduled, 0 as platform_leads
@@ -116,16 +117,16 @@ fb_data as
         GROUP BY 1,2,3,4,5,6
         UNION ALL
         SELECT campaign_name, 
-            CASE WHEN campaign_name ~* 'Prospecting' AND campaign_name ~* 'DTB' THEN 'Prospecting DTB' 
-                WHEN campaign_name ~* 'Prospecting' AND campaign_name ~* 'Leads' THEN 'Prospecting Leads' 
-                WHEN campaign_name ~* 'Retargeting' AND campaign_name ~* 'DTB' THEN 'Retargeting DTB' 
-                WHEN campaign_name ~* 'Retargeting' AND campaign_name ~* 'Leads' THEN 'Retargeting Leads' 
+            CASE WHEN campaign_name = '[SB] - Prospecting - DTB' THEN 'Prospecting DTB' 
+                WHEN campaign_name = '[SB] - Prospecting - Leads' THEN 'Prospecting Leads' 
+                WHEN campaign_name = '[SB] - Retargeting - DTB' THEN 'Retargeting DTB'
+                ELSE 'Other'
             END as campaign_type,
             ad_group_name, location, date, date_granularity,
             0 as spend, 0 as impressions, 0 as clicks, 0 as bookings_completed, COALESCE(SUM(leads),0) as leads, 0 as appointments_scheduled, 0 as platform_leads
         FROM leads_data
         WHERE channel = 'Facebook'
-        GROUP BY 1,2,3,4,5,6
+        GROUP BY 1,2,3,4,5,6          
         )
     GROUP BY 1,2,3,4,5,6,7),
 
