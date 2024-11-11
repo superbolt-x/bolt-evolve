@@ -58,7 +58,7 @@ bookings_data as
 leads_data as
     (SELECT 'day' as date_granularity, DATE_TRUNC('day',created_on::date) as date,
         CASE WHEN source ~* 'facebook' THEN 'Facebook' WHEN source ~* 'google' THEN 'Google' ELSE 'Other' END as channel, 
-        CASE WHEN utm_medium ~* '[SB]' THEN SPLIT_PART(utm_medium,' - ',2) WHEN utm_medium !~* '[SB]' THEN SPLIT_PART(utm_medium,' - ',1) END as location,
+        CASE WHEN utm_medium ~* 'SB' THEN SPLIT_PART(utm_medium,' - ',2) WHEN utm_medium !~* 'SB' THEN SPLIT_PART(utm_medium,' - ',1) END as location,
         utm_campaign as campaign_name, utm_medium as ad_group_name,
         COUNT(opportunity_name) as leads
     FROM {{ source('gsheet_raw','crm_leads') }}
@@ -66,7 +66,7 @@ leads_data as
     UNION ALL
     SELECT 'week' as date_granularity, DATE_TRUNC('week',created_on::date) as date,
         CASE WHEN source ~* 'facebook' THEN 'Facebook' WHEN source ~* 'google' THEN 'Google' ELSE 'Other' END as channel, 
-        CASE WHEN utm_medium ~* '[SB]' THEN SPLIT_PART(utm_medium,' - ',2) WHEN utm_medium !~* '[SB]' THEN SPLIT_PART(utm_medium,' - ',1) END as location,
+        CASE WHEN utm_medium ~* 'SB' THEN SPLIT_PART(utm_medium,' - ',2) WHEN utm_medium !~* 'SB' THEN SPLIT_PART(utm_medium,' - ',1) END as location,
         utm_campaign as campaign_name, utm_medium as ad_group_name,
         COUNT(opportunity_name) as leads
     FROM {{ source('gsheet_raw','crm_leads') }}
@@ -74,7 +74,7 @@ leads_data as
     UNION ALL
     SELECT 'month' as date_granularity, DATE_TRUNC('month',created_on::date) as date,
         CASE WHEN source ~* 'facebook' THEN 'Facebook' WHEN source ~* 'google' THEN 'Google' ELSE 'Other' END as channel, 
-        CASE WHEN utm_medium ~* '[SB]' THEN SPLIT_PART(utm_medium,' - ',2) WHEN utm_medium !~* '[SB]' THEN SPLIT_PART(utm_medium,' - ',1) END as location,
+        CASE WHEN utm_medium ~* 'SB' THEN SPLIT_PART(utm_medium,' - ',2) WHEN utm_medium !~* 'SB' THEN SPLIT_PART(utm_medium,' - ',1) END as location,
         utm_campaign as campaign_name, utm_medium as ad_group_name,
         COUNT(opportunity_name) as leads
     FROM {{ source('gsheet_raw','crm_leads') }}
@@ -82,7 +82,7 @@ leads_data as
     UNION ALL
     SELECT 'quarter' as date_granularity, DATE_TRUNC('quarter',created_on::date) as date,
         CASE WHEN source ~* 'facebook' THEN 'Facebook' WHEN source ~* 'google' THEN 'Google' ELSE 'Other' END as channel, 
-        CASE WHEN utm_medium ~* '[SB]' THEN SPLIT_PART(utm_medium,' - ',2) WHEN utm_medium !~* '[SB]' THEN SPLIT_PART(utm_medium,' - ',1) END as location,
+        CASE WHEN utm_medium ~* 'SB' THEN SPLIT_PART(utm_medium,' - ',2) WHEN utm_medium !~* 'SB' THEN SPLIT_PART(utm_medium,' - ',1) END as location,
         utm_campaign as campaign_name, utm_medium as ad_group_name,
         COUNT(opportunity_name) as leads
     FROM {{ source('gsheet_raw','crm_leads') }}
@@ -90,7 +90,7 @@ leads_data as
     UNION ALL
     SELECT 'year' as date_granularity, DATE_TRUNC('year',created_on::date) as date,
         CASE WHEN source ~* 'facebook' THEN 'Facebook' WHEN source ~* 'google' THEN 'Google' ELSE 'Other' END as channel, 
-        CASE WHEN utm_medium ~* '[SB]' THEN SPLIT_PART(utm_medium,' - ',2) WHEN utm_medium !~* '[SB]' THEN SPLIT_PART(utm_medium,' - ',1) END as location,
+        CASE WHEN utm_medium ~* 'SB' THEN SPLIT_PART(utm_medium,' - ',2) WHEN utm_medium !~* 'SB' THEN SPLIT_PART(utm_medium,' - ',1) END as location,
         utm_campaign as campaign_name, utm_medium as ad_group_name,
         COUNT(opportunity_name) as leads
     FROM {{ source('gsheet_raw','crm_leads') }}
@@ -118,7 +118,7 @@ fb_data as
                 WHEN campaign_name = '[SB] - Retargeting - DTB' THEN 'Retargeting DTB'
                 ELSE 'Other'
             END as campaign_type,
-            ad_group_name, CASE WHEN ad_group_name ~* '[SB]' THEN SPLIT_PART(ad_group_name,' - ',2) WHEN ad_group_name !~* '[SB]' THEN SPLIT_PART(ad_group_name,' - ',1) END as location, 
+            ad_group_name, CASE WHEN ad_group_name ~* 'SB' THEN SPLIT_PART(ad_group_name,' - ',2) WHEN ad_group_name !~* 'SB' THEN SPLIT_PART(ad_group_name,' - ',1) END as location, 
             date, date_granularity,
             0 as spend, 0 as impressions, 0 as clicks, COALESCE(SUM(bookings_completed),0) as bookings_completed, 0 as leads, 0 as appointments_scheduled, 0 as platform_leads
         FROM bookings_data
