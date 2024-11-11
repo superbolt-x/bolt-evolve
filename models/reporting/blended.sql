@@ -4,7 +4,8 @@
 
 WITH initial_bookings_data as 
     (SELECT *, 
-        CASE WHEN url ~* 'googledirect' THEN SPLIT_PART(SPLIT_PART(url,'campaignid=',2),'&',1) 
+        CASE WHEN url ~* 'googledirect' AND url ~* 'campaignid=' THEN SPLIT_PART(SPLIT_PART(url,'campaignid=',2),'&',1) 
+            WHEN url ~* 'googledirect' AND url !~* 'campaignid=' THEN SPLIT_PART(SPLIT_PART(url,'utm_campaign=',2),'&',1) 
             WHEN url ~* 'facebookdirect' THEN LEFT(SPLIT_PART(SPLIT_PART(url,'campaign_id=',2),'&',1),15)||'100' END as campaign_id, 
         SPLIT_PART(SPLIT_PART(url,'adgroupid=',2),'&',1) as ad_group_id,
         SPLIT_PART(SPLIT_PART(url,'adid=',2),'&',1) as ad_id
