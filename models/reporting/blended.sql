@@ -104,7 +104,7 @@ fb_data as
         FROM {{ source('reporting','facebook_ad_performance') }}
         UNION ALL
         SELECT campaign_name, 
-            CASE WHEN campaign_name = '[SB] - Prospecting - DTB' OR campaign_name THEN 'Prospecting DTB' 
+            CASE WHEN campaign_name = '[SB] - Prospecting - DTB' THEN 'Prospecting DTB' 
                 WHEN campaign_name = '[SB] - Prospecting - Leads' THEN 'Prospecting Leads' 
                 WHEN campaign_name = '[SB] - Retargeting - DTB' THEN 'Retargeting DTB'
                 ELSE 'Other'
