@@ -35,5 +35,5 @@ spend,
 impressions,
 link_clicks,
 onfacebook_leads+website_leads as leads,
-schedule_total-"offsite_conversion.fb_pixel_custom.dtbcomplete" as appointments_scheduled
+schedule_total as appointments_scheduled
 FROM {{ ref('facebook_performance_by_ad') }}
