@@ -106,6 +106,7 @@ fb_data as
             CASE WHEN campaign_name = '[SB] - Prospecting - DTB' THEN 'Prospecting DTB' 
                 WHEN campaign_name = '[SB] - Prospecting - Leads' THEN 'Prospecting Leads' 
                 WHEN campaign_name = '[SB] - Retargeting - DTB' THEN 'Retargeting DTB'
+                WHEN campaign_name = '[SB] - DTB - Catch All - Black Friday 2024' THEN 'Black Friday DTB'
                 ELSE 'Other'
             END as campaign_type,
             adset_name as ad_group_name, location, date, date_granularity, 
@@ -116,6 +117,7 @@ fb_data as
             CASE WHEN campaign_name = '[SB] - Prospecting - DTB' THEN 'Prospecting DTB' 
                 WHEN campaign_name = '[SB] - Prospecting - Leads' THEN 'Prospecting Leads' 
                 WHEN campaign_name = '[SB] - Retargeting - DTB' THEN 'Retargeting DTB'
+                WHEN campaign_name = '[SB] - DTB - Catch All - Black Friday 2024' THEN 'Black Friday DTB'
                 ELSE 'Other'
             END as campaign_type,
             ad_group_name, CASE WHEN ad_group_name ~* 'SB' THEN SPLIT_PART(ad_group_name,' - ',2) WHEN ad_group_name !~* 'SB' THEN SPLIT_PART(ad_group_name,' - ',1) END as location, 
@@ -130,6 +132,7 @@ fb_data as
             CASE WHEN campaign_name = '[SB] - Prospecting - DTB' THEN 'Prospecting DTB' 
                 WHEN campaign_name = '[SB] - Prospecting - Leads' THEN 'Prospecting Leads' 
                 WHEN campaign_name = '[SB] - Retargeting - DTB' THEN 'Retargeting DTB'
+                WHEN campaign_name = '[SB] - DTB - Catch All - Black Friday 2024' THEN 'Black Friday DTB'
                 ELSE 'Other'
             END as campaign_type,
             ad_group_name, location, date, date_granularity,
