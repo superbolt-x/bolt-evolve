@@ -205,7 +205,7 @@ fb_data as
             0 as spend, 0 as impressions, 0 as clicks, 0 as bookings_completed, COALESCE(SUM(leads),0) as leads, 0 as appointments_scheduled, 0 as platform_leads
         FROM leads_data
         WHERE channel = 'Facebook'
-        GROUP BY 1,2,3,4,5,6          
+        GROUP BY 1,2,3,4,5,6,7          
         )
     GROUP BY 1,2,3,4,5,6,7,8),
 
