@@ -61,13 +61,14 @@ leads_data as
         CASE WHEN utm_medium ~* 'SB' THEN SPLIT_PART(utm_medium,' - ',2) WHEN utm_medium !~* 'SB' THEN SPLIT_PART(utm_medium,' - ',1) END as location,
         utm_campaign as campaign_name, utm_medium as ad_group_name,
         CASE WHEN utm_content ~* 'lip flip' THEN 'Lip Flip'
-            WHEN utm_content ~* 'BBL' THEN 'BBL'
-            WHEN utm_content ~* 'hydrafacial' OR ad_name ~* 'diamondglow' THEN 'Facials'
+            WHEN utm_content ~* 'hydrafacial' THEN 'Hydrafacial'
+            WHEN utm_content ~* 'diamondglow' THEN 'Diamondglow'
             WHEN utm_content ~* 'LHR' THEN 'LHR'
-            WHEN utm_content ~* 'Botox' THEN 'Tox'
-            WHEN utm_content ~* 'Filler' THEN 'Fillers'
-            WHEN utm_content ~* 'Morpheus' THEN 'Morpheus'
-            WHEN utm_content ~* 'coolsculpting' OR ad_name ~* 'emsculpt' THEN 'Body Contouring'
+            WHEN utm_content ~* 'Botox' THEN 'Botox'
+            WHEN utm_content ~* 'Facial Filler' THEN 'Facial Filler'
+            WHEN utm_content ~* 'Lip Filler' THEN 'Lip Filler'
+            WHEN utm_content ~* 'Microneedling' THEN 'Microneedling'
+            WHEN utm_content ~* 'coolsculpting' OR utm_content ~* 'emsculpt' OR utm_content ~* 'body contouring' THEN 'Body Contouring'
             ELSE 'Others'
         END AS service,
         COUNT(opportunity_name) as leads
@@ -79,13 +80,14 @@ leads_data as
         CASE WHEN utm_medium ~* 'SB' THEN SPLIT_PART(utm_medium,' - ',2) WHEN utm_medium !~* 'SB' THEN SPLIT_PART(utm_medium,' - ',1) END as location,
         utm_campaign as campaign_name, utm_medium as ad_group_name,
         CASE WHEN utm_content ~* 'lip flip' THEN 'Lip Flip'
-            WHEN utm_content ~* 'BBL' THEN 'BBL'
-            WHEN utm_content ~* 'hydrafacial' OR ad_name ~* 'diamondglow' THEN 'Facials'
+            WHEN utm_content ~* 'hydrafacial' THEN 'Hydrafacial'
+            WHEN utm_content ~* 'diamondglow' THEN 'Diamondglow'
             WHEN utm_content ~* 'LHR' THEN 'LHR'
-            WHEN utm_content ~* 'Botox' THEN 'Tox'
-            WHEN utm_content ~* 'Filler' THEN 'Fillers'
-            WHEN utm_content ~* 'Morpheus' THEN 'Morpheus'
-            WHEN utm_content ~* 'coolsculpting' OR ad_name ~* 'emsculpt' THEN 'Body Contouring'
+            WHEN utm_content ~* 'Botox' THEN 'Botox'
+            WHEN utm_content ~* 'Facial Filler' THEN 'Facial Filler'
+            WHEN utm_content ~* 'Lip Filler' THEN 'Lip Filler'
+            WHEN utm_content ~* 'Microneedling' THEN 'Microneedling'
+            WHEN utm_content ~* 'coolsculpting' OR utm_content ~* 'emsculpt' OR utm_content ~* 'body contouring' THEN 'Body Contouring'
             ELSE 'Others'
         END AS service,
         COUNT(opportunity_name) as leads
@@ -97,13 +99,14 @@ leads_data as
         CASE WHEN utm_medium ~* 'SB' THEN SPLIT_PART(utm_medium,' - ',2) WHEN utm_medium !~* 'SB' THEN SPLIT_PART(utm_medium,' - ',1) END as location,
         utm_campaign as campaign_name, utm_medium as ad_group_name,
         CASE WHEN utm_content ~* 'lip flip' THEN 'Lip Flip'
-            WHEN utm_content ~* 'BBL' THEN 'BBL'
-            WHEN utm_content ~* 'hydrafacial' OR ad_name ~* 'diamondglow' THEN 'Facials'
+            WHEN utm_content ~* 'hydrafacial' THEN 'Hydrafacial'
+            WHEN utm_content ~* 'diamondglow' THEN 'Diamondglow'
             WHEN utm_content ~* 'LHR' THEN 'LHR'
-            WHEN utm_content ~* 'Botox' THEN 'Tox'
-            WHEN utm_content ~* 'Filler' THEN 'Fillers'
-            WHEN utm_content ~* 'Morpheus' THEN 'Morpheus'
-            WHEN utm_content ~* 'coolsculpting' OR ad_name ~* 'emsculpt' THEN 'Body Contouring'
+            WHEN utm_content ~* 'Botox' THEN 'Botox'
+            WHEN utm_content ~* 'Facial Filler' THEN 'Facial Filler'
+            WHEN utm_content ~* 'Lip Filler' THEN 'Lip Filler'
+            WHEN utm_content ~* 'Microneedling' THEN 'Microneedling'
+            WHEN utm_content ~* 'coolsculpting' OR utm_content ~* 'emsculpt' OR utm_content ~* 'body contouring' THEN 'Body Contouring'
             ELSE 'Others'
         END AS service,
         COUNT(opportunity_name) as leads
@@ -115,13 +118,14 @@ leads_data as
         CASE WHEN utm_medium ~* 'SB' THEN SPLIT_PART(utm_medium,' - ',2) WHEN utm_medium !~* 'SB' THEN SPLIT_PART(utm_medium,' - ',1) END as location,
         utm_campaign as campaign_name, utm_medium as ad_group_name,
         CASE WHEN utm_content ~* 'lip flip' THEN 'Lip Flip'
-            WHEN utm_content ~* 'BBL' THEN 'BBL'
-            WHEN utm_content ~* 'hydrafacial' OR ad_name ~* 'diamondglow' THEN 'Facials'
+            WHEN utm_content ~* 'hydrafacial' THEN 'Hydrafacial'
+            WHEN utm_content ~* 'diamondglow' THEN 'Diamondglow'
             WHEN utm_content ~* 'LHR' THEN 'LHR'
-            WHEN utm_content ~* 'Botox' THEN 'Tox'
-            WHEN utm_content ~* 'Filler' THEN 'Fillers'
-            WHEN utm_content ~* 'Morpheus' THEN 'Morpheus'
-            WHEN utm_content ~* 'coolsculpting' OR ad_name ~* 'emsculpt' THEN 'Body Contouring'
+            WHEN utm_content ~* 'Botox' THEN 'Botox'
+            WHEN utm_content ~* 'Facial Filler' THEN 'Facial Filler'
+            WHEN utm_content ~* 'Lip Filler' THEN 'Lip Filler'
+            WHEN utm_content ~* 'Microneedling' THEN 'Microneedling'
+            WHEN utm_content ~* 'coolsculpting' OR utm_content ~* 'emsculpt' OR utm_content ~* 'body contouring' THEN 'Body Contouring'
             ELSE 'Others'
         END AS service,
         COUNT(opportunity_name) as leads
