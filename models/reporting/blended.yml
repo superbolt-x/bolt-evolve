@@ -20,3 +20,6 @@ sources:
 
     - name: googleads_ad_performance
       identifier: evolve_googleads_ad_performance
+
+    - name: googleads_campaign_performance
+      identifier: evolve_googleads_campaign_performance
