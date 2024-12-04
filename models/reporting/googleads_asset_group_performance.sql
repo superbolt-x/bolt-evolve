@@ -17,6 +17,5 @@ spend,
 impressions,
 clicks,
 conversions as purchases,
-conversions_value as revenue,
-"ga4booknowevolvemedspacomwebbooking_completed" as appointments_scheduled
+conversions_value as revenue
 FROM {{ ref('googleads_performance_by_asset_group') }}
