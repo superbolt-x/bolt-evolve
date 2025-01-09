@@ -18,5 +18,7 @@ impressions,
 clicks,
 conversions as purchases,
 conversions_value as revenue,
-"ga4booknowevolvemedspacomwebbooking_completed" as appointments_scheduled
+CASE WHEN date < '2024-12-16' THEN "ga4booknowevolvemedspacomwebbooking_completed"
+    WHEN date >= '2024-12-16' THEN "evolvemedspazenoticomwebservice_completed" 
+END as appointments_scheduled
 FROM {{ ref('googleads_performance_by_ad') }}
