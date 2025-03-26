@@ -185,7 +185,8 @@ fb_data as
                 ELSE 'Other'
             END as campaign_type,
             adset_name as ad_group_name, location, service, date, date_granularity, 
-            spend, impressions, link_clicks as clicks, 0 as bookings_completed, 0 as leads, appointments_scheduled, leads as platform_leads
+            spend, impressions, link_clicks as clicks, 0 as bookings_completed, 0 as leads, 0 as replied, 0 as cold, 0 as booked, 0 as patient, 
+            appointments_scheduled, leads as platform_leads
         FROM {{ source('reporting','facebook_ad_performance') }}
         UNION ALL
         SELECT campaign_name, 
@@ -208,7 +209,8 @@ fb_data as
                 ELSE 'Others'
             END AS service,
             date, date_granularity,
-            0 as spend, 0 as impressions, 0 as clicks, COALESCE(SUM(bookings_completed),0) as bookings_completed, 0 as leads, 0 as appointments_scheduled, 0 as platform_leads
+            0 as spend, 0 as impressions, 0 as clicks, COALESCE(SUM(bookings_completed),0) as bookings_completed, 0 as leads, 0 as leads, 
+            0 as replied, 0 as cold, 0 as booked, 0 as patient, 0 as appointments_scheduled, 0 as platform_leads
         FROM bookings_data
         LEFT JOIN (SELECT DISTINCT campaign_id::text, campaign_name, adset_id::text as ad_group_id, adset_name as ad_group_name, ad_id::text, ad_name FROM {{ source('reporting','facebook_ad_performance') }}) USING(campaign_id,ad_id)   
         WHERE channel = 'Facebook'
@@ -222,7 +224,9 @@ fb_data as
                 ELSE 'Other'
             END as campaign_type,
             ad_group_name, location, service, date, date_granularity,
-            0 as spend, 0 as impressions, 0 as clicks, 0 as bookings_completed, COALESCE(SUM(leads),0) as leads, 0 as appointments_scheduled, 0 as platform_leads
+            0 as spend, 0 as impressions, 0 as clicks, 0 as bookings_completed, 
+            COALESCE(SUM(leads),0) as leads, COALESCE(SUM(replied),0) as replied, COALESCE(SUM(cold),0) as cold, COALESCE(SUM(booked),0) as booked, 
+            COALESCE(SUM(patient),0) as patient, 0 as appointments_scheduled, 0 as platform_leads
         FROM leads_data
         WHERE channel = 'Facebook'
         GROUP BY 1,2,3,4,5,6,7          
@@ -238,13 +242,15 @@ adw_data as
         (SELECT campaign_name, 
             CASE WHEN campaign_name ~* 'Search - Branded' THEN 'Search - Branded' WHEN campaign_name ~* 'Search - Non Brand' THEN 'Search - Non Brand' WHEN campaign_name ~* 'PMax' THEN 'PMax' END as campaign_type,
             '(not set)' as ad_group_name, null as location, null as service, date, date_granularity, 
-            spend, impressions, clicks, 0 as bookings_completed, 0 as leads, appointments_scheduled, 0 as platform_leads
+            spend, impressions, clicks, 0 as bookings_completed, 0 as leads, 0 as leads, 0 as replied, 0 as cold, 0 as booked, 0 as patient, 
+            appointments_scheduled, 0 as platform_leads
         FROM {{ source('reporting','googleads_campaign_performance') }}
         UNION ALL
         SELECT campaign_name, 
             CASE WHEN campaign_name ~* 'Search - Branded' THEN 'Search - Branded' WHEN campaign_name ~* 'Search - Non Brand' THEN 'Search - Non Brand' WHEN campaign_name ~* 'PMax' THEN 'PMax' END as campaign_type,
             '(not set)' as ad_group_name, null as location, null as service, date, date_granularity,
-            0 as spend, 0 as impressions, 0 as clicks, COALESCE(SUM(bookings_completed),0) as bookings_completed, 0 as leads, 0 as appointments_scheduled, 0 as platform_leads
+            0 as spend, 0 as impressions, 0 as clicks, COALESCE(SUM(bookings_completed),0) as bookings_completed, 0 as leads, 
+            0 as leads, 0 as replied, 0 as cold, 0 as booked, 0 as patient, 0 as appointments_scheduled, 0 as platform_leads
         FROM bookings_data
         LEFT JOIN (SELECT DISTINCT campaign_id::text, campaign_name FROM {{ source('reporting','googleads_campaign_performance') }}) USING(campaign_id)   
         WHERE channel = 'Google'
@@ -253,7 +259,9 @@ adw_data as
         SELECT campaign_name, 
             CASE WHEN campaign_name ~* 'Search - Branded' THEN 'Search - Branded' WHEN campaign_name ~* 'Search - Non Brand' THEN 'Search - Non Brand' WHEN campaign_name ~* 'PMax' THEN 'PMax' END as campaign_type,
             '(not set)' as ad_group_name, null as location, null as service, date, date_granularity,
-            0 as spend, 0 as impressions, 0 as clicks, 0 as bookings_completed, COALESCE(SUM(leads),0) as leads, 0 as appointments_scheduled, 0 as platform_leads
+            0 as spend, 0 as impressions, 0 as clicks, 0 as bookings_completed, 
+            COALESCE(SUM(leads),0) as leads, COALESCE(SUM(replied),0) as replied, COALESCE(SUM(cold),0) as cold, COALESCE(SUM(booked),0) as booked, 
+            COALESCE(SUM(patient),0) as patient, 0 as appointments_scheduled, 0 as platform_leads
         FROM leads_data
         WHERE channel = 'Google'
         GROUP BY 1,2,3,4,5,6,7
