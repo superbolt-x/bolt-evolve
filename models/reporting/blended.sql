@@ -269,7 +269,7 @@ adw_data as
     GROUP BY 1,2,3,4,5,6,7,8)
 
 SELECT channel, campaign_name, campaign_type, ad_group_name, location, service, date, date_granularity, 
-    spend, impressions, clicks, bookings_completed, leads, appointments_scheduled, platform_leads, replied, cold, booked, patient
+    spend, impressions, clicks, bookings_completed, leads, replied, cold, booked, patient, appointments_scheduled, platform_leads
 FROM 
     (SELECT * FROM fb_data
     UNION ALL 
