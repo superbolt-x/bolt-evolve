@@ -71,7 +71,11 @@ leads_data as
             WHEN utm_content ~* 'coolsculpting' OR utm_content ~* 'emsculpt' OR utm_content ~* 'body contouring' THEN 'Body Contouring'
             ELSE 'Others'
         END AS service,
-        COUNT(opportunity_name) as leads
+        COUNT(opportunity_name) as leads,
+        SUM(CASE WHEN stage = 'Replied' THEN 1 ELSE 0 END) as replied,
+        SUM(CASE WHEN stage = 'Cold' THEN 1 ELSE 0 END) as cold,
+        SUM(CASE WHEN stage = 'Booked' THEN 1 ELSE 0 END) as booked,
+        SUM(CASE WHEN stage = 'Patient' THEN 1 ELSE 0 END) as patient
     FROM {{ source('gsheet_raw','crm_leads') }}
     GROUP BY 1,2,3,4,5,6,7
     UNION ALL
@@ -90,7 +94,11 @@ leads_data as
             WHEN utm_content ~* 'coolsculpting' OR utm_content ~* 'emsculpt' OR utm_content ~* 'body contouring' THEN 'Body Contouring'
             ELSE 'Others'
         END AS service,
-        COUNT(opportunity_name) as leads
+        COUNT(opportunity_name) as leads,
+        SUM(CASE WHEN stage = 'Replied' THEN 1 ELSE 0 END) as replied,
+        SUM(CASE WHEN stage = 'Cold' THEN 1 ELSE 0 END) as cold,
+        SUM(CASE WHEN stage = 'Booked' THEN 1 ELSE 0 END) as booked,
+        SUM(CASE WHEN stage = 'Patient' THEN 1 ELSE 0 END) as patient
     FROM {{ source('gsheet_raw','crm_leads') }}
     GROUP BY 1,2,3,4,5,6,7
     UNION ALL
@@ -109,7 +117,11 @@ leads_data as
             WHEN utm_content ~* 'coolsculpting' OR utm_content ~* 'emsculpt' OR utm_content ~* 'body contouring' THEN 'Body Contouring'
             ELSE 'Others'
         END AS service,
-        COUNT(opportunity_name) as leads
+        COUNT(opportunity_name) as leads,
+        SUM(CASE WHEN stage = 'Replied' THEN 1 ELSE 0 END) as replied,
+        SUM(CASE WHEN stage = 'Cold' THEN 1 ELSE 0 END) as cold,
+        SUM(CASE WHEN stage = 'Booked' THEN 1 ELSE 0 END) as booked,
+        SUM(CASE WHEN stage = 'Patient' THEN 1 ELSE 0 END) as patient
     FROM {{ source('gsheet_raw','crm_leads') }}
     GROUP BY 1,2,3,4,5,6,7
     UNION ALL
@@ -128,7 +140,11 @@ leads_data as
             WHEN utm_content ~* 'coolsculpting' OR utm_content ~* 'emsculpt' OR utm_content ~* 'body contouring' THEN 'Body Contouring'
             ELSE 'Others'
         END AS service,
-        COUNT(opportunity_name) as leads
+        COUNT(opportunity_name) as leads,
+        SUM(CASE WHEN stage = 'Replied' THEN 1 ELSE 0 END) as replied,
+        SUM(CASE WHEN stage = 'Cold' THEN 1 ELSE 0 END) as cold,
+        SUM(CASE WHEN stage = 'Booked' THEN 1 ELSE 0 END) as booked,
+        SUM(CASE WHEN stage = 'Patient' THEN 1 ELSE 0 END) as patient
     FROM {{ source('gsheet_raw','crm_leads') }}
     GROUP BY 1,2,3,4,5,6,7
     UNION ALL
@@ -147,7 +163,11 @@ leads_data as
             WHEN utm_content ~* 'coolsculpting' OR utm_content ~* 'emsculpt' OR utm_content ~* 'body contouring' THEN 'Body Contouring'
             ELSE 'Others'
         END AS service,
-        COUNT(opportunity_name) as leads
+        COUNT(opportunity_name) as leads,
+        SUM(CASE WHEN stage = 'Replied' THEN 1 ELSE 0 END) as replied,
+        SUM(CASE WHEN stage = 'Cold' THEN 1 ELSE 0 END) as cold,
+        SUM(CASE WHEN stage = 'Booked' THEN 1 ELSE 0 END) as booked,
+        SUM(CASE WHEN stage = 'Patient' THEN 1 ELSE 0 END) as patient
     FROM {{ source('gsheet_raw','crm_leads') }}
     GROUP BY 1,2,3,4,5,6,7),
     
@@ -240,7 +260,8 @@ adw_data as
         )
     GROUP BY 1,2,3,4,5,6,7,8)
 
-SELECT channel, campaign_name, campaign_type, ad_group_name, location, service, date, date_granularity, spend, impressions, clicks, bookings_completed, leads, appointments_scheduled, platform_leads
+SELECT channel, campaign_name, campaign_type, ad_group_name, location, service, date, date_granularity, 
+    spend, impressions, clicks, bookings_completed, leads, appointments_scheduled, platform_leads, replied, cold, booked, patient
 FROM 
     (SELECT * FROM fb_data
     UNION ALL 
