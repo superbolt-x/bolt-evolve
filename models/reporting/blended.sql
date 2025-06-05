@@ -111,7 +111,7 @@ WITH leads_data as
 fb_data as 
     (SELECT date, date_granularity, 'Facebook' as channel, location, campaign_type, campaign_name, adset_name, ad_name, service, 
         COALESCE(SUM(spend),0) as spend, COALESCE(SUM(impressions),0) as impressions, COALESCE(SUM(clicks),0) as clicks, 
-        COALESCE(SUM(crm_leads),0) as crm_leads, COALESCE(SUM(crm_replied),0) as crm_replied,
+        COALESCE(SUM(crm_leads),0) as crm_leads, COALESCE(SUM(crm_replied),0) as crm_replied, COALESCE(SUM(crm_appointments),0) as crm_appointments, 
         COALESCE(SUM(platform_appointments),0) as platform_appointments, COALESCE(SUM(platform_leads),0) as platform_leads
     FROM
         (SELECT date, date_granularity, location, 
@@ -146,7 +146,7 @@ fb_data as
 adw_data as 
     (SELECT date, date_granularity, 'Google' as channel, location, campaign_type, campaign_name, adset_name, ad_name, service, 
         COALESCE(SUM(spend),0) as spend, COALESCE(SUM(impressions),0) as impressions, COALESCE(SUM(clicks),0) as clicks, 
-        COALESCE(SUM(crm_leads),0) as crm_leads, COALESCE(SUM(crm_replied),0) as crm_replied,
+        COALESCE(SUM(crm_leads),0) as crm_leads, COALESCE(SUM(crm_replied),0) as crm_replied, COALESCE(SUM(crm_appointments),0) as crm_appointments, 
         COALESCE(SUM(platform_appointments),0) as platform_appointments, COALESCE(SUM(platform_leads),0) as platform_leads
     FROM
         (SELECT date, date_granularity, null as location,
