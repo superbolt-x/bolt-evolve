@@ -146,9 +146,8 @@ fb_data as
 adw_data as 
     (SELECT date, date_granularity, 'Google' as channel, location, campaign_type, campaign_name, adset_name, ad_name, service, 
         COALESCE(SUM(spend),0) as spend, COALESCE(SUM(impressions),0) as impressions, COALESCE(SUM(clicks),0) as clicks, 
-        COALESCE(SUM(leads),0) as leads, COALESCE(SUM(replied),0) as replied, 
-        COALESCE(SUM(cold),0) as cold, COALESCE(SUM(booked),0) as booked, COALESCE(SUM(patient),0) as patient,
-        COALESCE(SUM(appointments_scheduled),0) as appointments_scheduled, COALESCE(SUM(platform_leads),0) as platform_leads
+        COALESCE(SUM(crm_leads),0) as crm_leads, COALESCE(SUM(crm_replied),0) as crm_replied,
+        COALESCE(SUM(platform_appointments),0) as platform_appointments, COALESCE(SUM(platform_leads),0) as platform_leads
     FROM
         (SELECT date, date_granularity, null as location,
             CASE WHEN campaign_name ~* 'Search - Branded' THEN 'Search - Branded' 
