@@ -9,13 +9,22 @@ WITH leads_data as
         utm_campaign as campaign_name, 
         utm_medium as adset_name,
         utm_content as ad_name,
-        CASE WHEN utm_content ~* 'facial' THEN 'Facial'
-            WHEN utm_content ~* 'filler' THEN 'Fillers'
+        CASE WHEN utm_content ~* 'DiamondGlow' THEN 'DiamondGlow'
+            WHEN utm_content ~* 'Hydrafacial' THEN 'Hydrafacial'
+            WHEN utm_content ~* 'Botox' THEN 'Botox'
+            WHEN utm_content ~* 'Xeomin' THEN 'Xeomin'
+            WHEN utm_content ~* 'Facials' THEN 'Facials - General'
+            WHEN utm_content ~* 'Lip Filler' THEN 'Lip Filler'
+            WHEN utm_content ~* 'Filler' THEN 'Filler - General'
+            WHEN utm_content ~* 'LHR' THEN 'LHR'
             WHEN utm_content ~* 'Microneedling' THEN 'Microneedling'
-            --WHEN utm_content ~* 'diamondglow' THEN 'Diamondglow'
-            --WHEN utm_content ~* 'LHR' THEN 'LHR'
-            --WHEN utm_content ~* 'Botox' THEN 'Botox'
-            --WHEN utm_content ~* 'coolsculpting' OR utm_content ~* 'emsculpt' OR utm_content ~* 'body contouring' THEN 'Body Contouring'
+            WHEN utm_content ~* 'Traptox' THEN 'Traptox'
+            WHEN utm_content ~* 'BBL' THEN 'BBL'
+            WHEN utm_content ~* 'Lip Flip' THEN 'Lip Flip'
+            WHEN utm_content ~* 'PRP Undereye' THEN 'PRP Undereye'
+            WHEN utm_content ~* 'Clear and Brilliant' THEN 'Clear + Brilliant'
+            WHEN utm_content ~* 'Wedding' THEN 'Wedding Prep'
+            WHEN utm_content ~* 'General evergreen' THEN 'General evergreen'
             ELSE 'Others'
         END AS service,
         COUNT(opportunity_name) as leads,
@@ -30,13 +39,22 @@ WITH leads_data as
         utm_campaign as campaign_name, 
         utm_medium as adset_name,
         utm_content as ad_name,
-        CASE WHEN utm_content ~* 'facial' THEN 'Facial'
-            WHEN utm_content ~* 'filler' THEN 'Fillers'
+        CASE WHEN utm_content ~* 'DiamondGlow' THEN 'DiamondGlow'
+            WHEN utm_content ~* 'Hydrafacial' THEN 'Hydrafacial'
+            WHEN utm_content ~* 'Botox' THEN 'Botox'
+            WHEN utm_content ~* 'Xeomin' THEN 'Xeomin'
+            WHEN utm_content ~* 'Facials' THEN 'Facials - General'
+            WHEN utm_content ~* 'Lip Filler' THEN 'Lip Filler'
+            WHEN utm_content ~* 'Filler' THEN 'Filler - General'
+            WHEN utm_content ~* 'LHR' THEN 'LHR'
             WHEN utm_content ~* 'Microneedling' THEN 'Microneedling'
-            --WHEN utm_content ~* 'diamondglow' THEN 'Diamondglow'
-            --WHEN utm_content ~* 'LHR' THEN 'LHR'
-            --WHEN utm_content ~* 'Botox' THEN 'Botox'
-            --WHEN utm_content ~* 'coolsculpting' OR utm_content ~* 'emsculpt' OR utm_content ~* 'body contouring' THEN 'Body Contouring'
+            WHEN utm_content ~* 'Traptox' THEN 'Traptox'
+            WHEN utm_content ~* 'BBL' THEN 'BBL'
+            WHEN utm_content ~* 'Lip Flip' THEN 'Lip Flip'
+            WHEN utm_content ~* 'PRP Undereye' THEN 'PRP Undereye'
+            WHEN utm_content ~* 'Clear and Brilliant' THEN 'Clear + Brilliant'
+            WHEN utm_content ~* 'Wedding' THEN 'Wedding Prep'
+            WHEN utm_content ~* 'General evergreen' THEN 'General evergreen'
             ELSE 'Others'
         END AS service,
         COUNT(opportunity_name) as leads,
@@ -51,13 +69,22 @@ WITH leads_data as
         utm_campaign as campaign_name, 
         utm_medium as adset_name,
         utm_content as ad_name,
-        CASE WHEN utm_content ~* 'facial' THEN 'Facial'
-            WHEN utm_content ~* 'filler' THEN 'Fillers'
+        CASE WHEN utm_content ~* 'DiamondGlow' THEN 'DiamondGlow'
+            WHEN utm_content ~* 'Hydrafacial' THEN 'Hydrafacial'
+            WHEN utm_content ~* 'Botox' THEN 'Botox'
+            WHEN utm_content ~* 'Xeomin' THEN 'Xeomin'
+            WHEN utm_content ~* 'Facials' THEN 'Facials - General'
+            WHEN utm_content ~* 'Lip Filler' THEN 'Lip Filler'
+            WHEN utm_content ~* 'Filler' THEN 'Filler - General'
+            WHEN utm_content ~* 'LHR' THEN 'LHR'
             WHEN utm_content ~* 'Microneedling' THEN 'Microneedling'
-            --WHEN utm_content ~* 'diamondglow' THEN 'Diamondglow'
-            --WHEN utm_content ~* 'LHR' THEN 'LHR'
-            --WHEN utm_content ~* 'Botox' THEN 'Botox'
-            --WHEN utm_content ~* 'coolsculpting' OR utm_content ~* 'emsculpt' OR utm_content ~* 'body contouring' THEN 'Body Contouring'
+            WHEN utm_content ~* 'Traptox' THEN 'Traptox'
+            WHEN utm_content ~* 'BBL' THEN 'BBL'
+            WHEN utm_content ~* 'Lip Flip' THEN 'Lip Flip'
+            WHEN utm_content ~* 'PRP Undereye' THEN 'PRP Undereye'
+            WHEN utm_content ~* 'Clear and Brilliant' THEN 'Clear + Brilliant'
+            WHEN utm_content ~* 'Wedding' THEN 'Wedding Prep'
+            WHEN utm_content ~* 'General evergreen' THEN 'General evergreen'
             ELSE 'Others'
         END AS service,
         COUNT(opportunity_name) as leads,
@@ -72,13 +99,22 @@ WITH leads_data as
         utm_campaign as campaign_name, 
         utm_medium as adset_name,
         utm_content as ad_name,
-        CASE WHEN utm_content ~* 'facial' THEN 'Facial'
-            WHEN utm_content ~* 'filler' THEN 'Fillers'
+        CASE WHEN utm_content ~* 'DiamondGlow' THEN 'DiamondGlow'
+            WHEN utm_content ~* 'Hydrafacial' THEN 'Hydrafacial'
+            WHEN utm_content ~* 'Botox' THEN 'Botox'
+            WHEN utm_content ~* 'Xeomin' THEN 'Xeomin'
+            WHEN utm_content ~* 'Facials' THEN 'Facials - General'
+            WHEN utm_content ~* 'Lip Filler' THEN 'Lip Filler'
+            WHEN utm_content ~* 'Filler' THEN 'Filler - General'
+            WHEN utm_content ~* 'LHR' THEN 'LHR'
             WHEN utm_content ~* 'Microneedling' THEN 'Microneedling'
-            --WHEN utm_content ~* 'diamondglow' THEN 'Diamondglow'
-            --WHEN utm_content ~* 'LHR' THEN 'LHR'
-            --WHEN utm_content ~* 'Botox' THEN 'Botox'
-            --WHEN utm_content ~* 'coolsculpting' OR utm_content ~* 'emsculpt' OR utm_content ~* 'body contouring' THEN 'Body Contouring'
+            WHEN utm_content ~* 'Traptox' THEN 'Traptox'
+            WHEN utm_content ~* 'BBL' THEN 'BBL'
+            WHEN utm_content ~* 'Lip Flip' THEN 'Lip Flip'
+            WHEN utm_content ~* 'PRP Undereye' THEN 'PRP Undereye'
+            WHEN utm_content ~* 'Clear and Brilliant' THEN 'Clear + Brilliant'
+            WHEN utm_content ~* 'Wedding' THEN 'Wedding Prep'
+            WHEN utm_content ~* 'General evergreen' THEN 'General evergreen'
             ELSE 'Others'
         END AS service,
         COUNT(opportunity_name) as leads,
@@ -93,13 +129,22 @@ WITH leads_data as
         utm_campaign as campaign_name, 
         utm_medium as adset_name,
         utm_content as ad_name,
-        CASE WHEN utm_content ~* 'facial' THEN 'Facial'
-            WHEN utm_content ~* 'filler' THEN 'Fillers'
+        CASE WHEN utm_content ~* 'DiamondGlow' THEN 'DiamondGlow'
+            WHEN utm_content ~* 'Hydrafacial' THEN 'Hydrafacial'
+            WHEN utm_content ~* 'Botox' THEN 'Botox'
+            WHEN utm_content ~* 'Xeomin' THEN 'Xeomin'
+            WHEN utm_content ~* 'Facials' THEN 'Facials - General'
+            WHEN utm_content ~* 'Lip Filler' THEN 'Lip Filler'
+            WHEN utm_content ~* 'Filler' THEN 'Filler - General'
+            WHEN utm_content ~* 'LHR' THEN 'LHR'
             WHEN utm_content ~* 'Microneedling' THEN 'Microneedling'
-            --WHEN utm_content ~* 'diamondglow' THEN 'Diamondglow'
-            --WHEN utm_content ~* 'LHR' THEN 'LHR'
-            --WHEN utm_content ~* 'Botox' THEN 'Botox'
-            --WHEN utm_content ~* 'coolsculpting' OR utm_content ~* 'emsculpt' OR utm_content ~* 'body contouring' THEN 'Body Contouring'
+            WHEN utm_content ~* 'Traptox' THEN 'Traptox'
+            WHEN utm_content ~* 'BBL' THEN 'BBL'
+            WHEN utm_content ~* 'Lip Flip' THEN 'Lip Flip'
+            WHEN utm_content ~* 'PRP Undereye' THEN 'PRP Undereye'
+            WHEN utm_content ~* 'Clear and Brilliant' THEN 'Clear + Brilliant'
+            WHEN utm_content ~* 'Wedding' THEN 'Wedding Prep'
+            WHEN utm_content ~* 'General evergreen' THEN 'General evergreen'
             ELSE 'Others'
         END AS service,
         COUNT(opportunity_name) as leads,
