@@ -160,7 +160,12 @@ fb_data as
         COALESCE(SUM(platform_appointments),0) as platform_appointments, COALESCE(SUM(platform_leads),0) as platform_leads
     FROM
         (SELECT date, date_granularity, location, 
-            CASE WHEN campaign_name = '[SB] - Prospecting - DTB' THEN 'Prospecting DTB' 
+            CASE WHEN campaign_name in (
+                '[SB] - Prospecting - DTB',
+                '[SB] - Prospecting - A+SC - Catch All (NY, NJ, MD) - DTB - BookingComplete Campaign',
+                '[SB] - NEW Prospecting - A+SC - Catch All (NY, NJ, MD) - DTB - BookingComplete Campaign',
+                '[SB] - Prospecting - Manual A/B Test - All Clinics - BookingComplete Campaign'
+                ) THEN 'Prospecting DTB' 
                 WHEN campaign_name = '[SB] - Prospecting - Leads' THEN 'Prospecting Leads' 
                 WHEN campaign_name = '[SB] - Retargeting - DTB' THEN 'Retargeting DTB'
                 WHEN campaign_name = '[SB] - DTB - Catch All - Black Friday 2024' THEN 'Black Friday DTB'
@@ -172,7 +177,12 @@ fb_data as
         FROM {{ source('reporting','facebook_ad_performance') }}
         UNION ALL
         SELECT date, date_granularity, location, 
-            CASE WHEN campaign_name = '[SB] - Prospecting - DTB' THEN 'Prospecting DTB' 
+            CASE WHEN campaign_name in (
+                '[SB] - Prospecting - DTB',
+                '[SB] - Prospecting - A+SC - Catch All (NY, NJ, MD) - DTB - BookingComplete Campaign',
+                '[SB] - NEW Prospecting - A+SC - Catch All (NY, NJ, MD) - DTB - BookingComplete Campaign',
+                '[SB] - Prospecting - Manual A/B Test - All Clinics - BookingComplete Campaign'
+                ) THEN 'Prospecting DTB' 
                 WHEN campaign_name = '[SB] - Prospecting - Leads' THEN 'Prospecting Leads' 
                 WHEN campaign_name = '[SB] - Retargeting - DTB' THEN 'Retargeting DTB'
                 WHEN campaign_name = '[SB] - DTB - Catch All - Black Friday 2024' THEN 'Black Friday DTB'
