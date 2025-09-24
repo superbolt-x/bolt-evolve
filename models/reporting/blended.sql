@@ -157,7 +157,9 @@ fb_data as
     (SELECT date, date_granularity, 'Facebook' as channel, location, campaign_type, campaign_name, adset_name, ad_name, service, 
         COALESCE(SUM(spend),0) as spend, COALESCE(SUM(impressions),0) as impressions, COALESCE(SUM(clicks),0) as clicks, 
         COALESCE(SUM(crm_leads),0) as crm_leads, COALESCE(SUM(crm_replied),0) as crm_replied, COALESCE(SUM(crm_appointments),0) as crm_appointments, 
-        COALESCE(SUM(platform_appointments),0) as platform_appointments, COALESCE(SUM(platform_leads),0) as platform_leads
+        COALESCE(SUM(platform_appointments),0) as platform_appointments, COALESCE(SUM(platform_leads),0) as platform_leads,
+        COALESCE(SUM(booked_appointment),0) as booked_appointment, COALESCE(SUM(completed_appointment),0) as completed_appointment,
+        COALESCE(SUM(booking_complete),0) as booking_complete
     FROM
         (SELECT date, date_granularity, location, 
             CASE WHEN campaign_name in (
@@ -173,7 +175,7 @@ fb_data as
             END as campaign_type,
             campaign_name, adset_name, ad_name, service, 
             spend, impressions, link_clicks as clicks, 0 as crm_leads, 0 as crm_replied, 0 as crm_appointments, 
-            appointments_scheduled as platform_appointments, leads as platform_leads
+            appointments_scheduled as platform_appointments, leads as platform_leads, booked_appointment, completed_appointment, booking_complete
         FROM {{ source('reporting','facebook_ad_performance') }}
         UNION ALL
         SELECT date, date_granularity, location, 
@@ -191,7 +193,7 @@ fb_data as
             campaign_name, adset_name, ad_name, service, 
             0 as spend, 0 as impressions, 0 as clicks, 
             COALESCE(SUM(leads),0) as crm_leads, COALESCE(SUM(replied),0) as crm_replied, COALESCE(SUM(appointments),0) as crm_appointments, 
-            0 as platform_appointments, 0 as platform_leads
+            0 as platform_appointments, 0 as platform_leads, 0 as booked_appointment, 0 as completed_appointment, 0 as booking_complete
         FROM leads_data
         WHERE channel = 'Facebook'
         GROUP BY 1,2,3,4,5,6,7,8          
@@ -202,7 +204,9 @@ adw_data as
     (SELECT date, date_granularity, 'Google' as channel, location, campaign_type, campaign_name, adset_name, ad_name, service, 
         COALESCE(SUM(spend),0) as spend, COALESCE(SUM(impressions),0) as impressions, COALESCE(SUM(clicks),0) as clicks, 
         COALESCE(SUM(crm_leads),0) as crm_leads, COALESCE(SUM(crm_replied),0) as crm_replied, COALESCE(SUM(crm_appointments),0) as crm_appointments, 
-        COALESCE(SUM(platform_appointments),0) as platform_appointments, COALESCE(SUM(platform_leads),0) as platform_leads
+        COALESCE(SUM(platform_appointments),0) as platform_appointments, COALESCE(SUM(platform_leads),0) as platform_leads, 
+        COALESCE(SUM(booked_appointment),0) as booked_appointment, COALESCE(SUM(completed_appointment),0) as completed_appointment,
+        COALESCE(SUM(booking_complete),0) as booking_complete
     FROM
         (SELECT date, date_granularity, null as location,
             CASE WHEN campaign_name ~* 'Search - Branded' THEN 'Search - Branded' 
@@ -211,7 +215,7 @@ adw_data as
             END as campaign_type,
             campaign_name, null as adset_name, null as ad_name, null as service, 
             spend, impressions, clicks, 0 as crm_leads, 0 as crm_replied, 0 as crm_appointments, 
-            appointments_scheduled as platform_appointments, 0 as platform_leads
+            appointments_scheduled as platform_appointments, 0 as platform_leads, 0 as booked_appointment, 0 as completed_appointment, 0 as booking_complete
         FROM {{ source('reporting','googleads_campaign_performance') }}
         UNION ALL
         SELECT date, date_granularity, null as location,
@@ -222,7 +226,7 @@ adw_data as
             campaign_name, null as adset_name, null as ad_name, null as service, 
             0 as spend, 0 as impressions, 0 as clicks, 
             COALESCE(SUM(leads),0) as crm_leads, COALESCE(SUM(replied),0) as crm_replied, COALESCE(SUM(appointments),0) as crm_appointments, 
-            0 as platform_appointments, 0 as platform_leads
+            0 as platform_appointments, 0 as platform_leads, 0 as booked_appointment, 0 as completed_appointment, 0 as booking_complete
         FROM leads_data
         WHERE channel = 'Google'
         GROUP BY 1,2,3,4,5,6,7
@@ -230,7 +234,8 @@ adw_data as
     GROUP BY 1,2,3,4,5,6,7,8,9)
 
 SELECT date, date_granularity, channel, location, campaign_type, campaign_name, adset_name, ad_name, service, 
-    spend, impressions, clicks, crm_leads, crm_replied, crm_appointments, platform_appointments, platform_leads
+    spend, impressions, clicks, crm_leads, crm_replied, crm_appointments, platform_appointments, platform_leads,
+    booked_appointment, completed_appointment, booking_complete
 FROM 
     (SELECT * FROM fb_data
     UNION 
