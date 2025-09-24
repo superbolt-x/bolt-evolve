@@ -14,7 +14,7 @@ impressions,
 link_clicks,
 onfacebook_leads+website_leads as leads,
 schedule_total as appointments_scheduled,
-sum("offsite_conversion.fb_pixel_custom.booked appointment") as booked_appointment,
-sum("offsite_conversion.fb_pixel_custom.completed appointment") as completed_appointment,
-sum("offsite_conversion.fb_pixel_custom.bookingcomplete") as booking_complete
+"offsite_conversion.fb_pixel_custom.booked appointment" as booked_appointment,
+"offsite_conversion.fb_pixel_custom.completed appointment" as completed_appointment,
+"offsite_conversion.fb_pixel_custom.bookingcomplete" as booking_complete
 FROM {{ ref('facebook_performance_by_campaign') }}
